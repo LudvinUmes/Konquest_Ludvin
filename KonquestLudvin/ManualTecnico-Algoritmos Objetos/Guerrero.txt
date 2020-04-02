@@ -1,0 +1,24 @@
+Inicio Guerrero 
+    privado final var nombre;
+    privado final var factorDeMuerte;
+    privado final var espacioEnNave;
+
+    Inicio Guerrero(var nombre, var factorDeMuerte, var espacioEnNave)
+        este.nombre = nombre;
+        este.factorDeMuerte = factorDeMuerte;
+        este.espacioEnNave = espacioEnNave;
+    fin Guerrero
+
+    Inicio var getNombre() 
+        retornar nombre;
+    fin getNombre
+
+    Inicio var getFactorDeMuerte() 
+        retornar factorDeMuerte;
+    fin getFactorDeMuerte
+
+    Inicio var getEspacioEnNave() 
+        retornar espacioEnNave;
+    fin getEspacioEnNave
+
+fin Guerrero

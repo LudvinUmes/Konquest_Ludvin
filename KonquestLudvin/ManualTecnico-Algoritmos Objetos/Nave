@@ -1,0 +1,14 @@
+inicio Nave 
+    privado final var nombre;
+    privado final var capacidad;
+    privado final var velocidad;
+    privado final var costoProducion;
+
+    inicio Nave(var nombre, var capacidad, var velocidad, var costoProducion) 
+        este.nombre = nombre;
+        este.capacidad = capacidad;
+        este.velocidad = velocidad;
+        este.costoProducion = costoProducion;
+    fin Nave
+
+fin Nave

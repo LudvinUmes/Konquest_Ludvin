@@ -1,0 +1,368 @@
+inicio Juego
+
+    var final PROBABILIBAD_DISTRIBUCION_TIERRA = 45
+    var final PROBABILIBAD_DISTRIBUCION_AGUA = 25
+    var final PROBABILIBAD_DISTRIBUCION_FUEGO = 15
+    var final PROBABILIBAD_DISTRIBUCION_ORGANICO = 10
+    var final PROBABILIBAD_DISTRIBUCION_RADIOACTI = 5
+
+    Jugador jugadores[] = Jugador[2]
+
+    Mapa mapas[] = Mapa[1]
+
+    //Inicio
+    inicio inicio() 
+        Escribir "Bienvenido a Konquest"
+        menu()
+    fin inicio
+
+    //Menu
+    inicio menu() 
+        var opcion
+        var salir = falso
+        ingresarJugadores()
+        mientras (!salir) 
+            Escribir "Elija la opción que desea realizar"
+            Escribir "1. Iniciar Juego"
+            Escribir "2. Crear Mapa"
+            Escribir "3. Imprimir Mapa")
+            Escribir "4. Salir")
+
+            var opcion
+            leer opcion 
+            segun (opcion) {
+                caso "1":
+                    
+                caso "2":
+                    Escribir "agregar mapa"
+                    mapas = agregarMapa(mapas)
+                caso "3":
+                    Escribir "Ingrese el indice del mapa a imprimir"
+                    var indice 
+                    leer indice
+                    imprimirMapa(mapas[indice - 1])
+                caso "4":
+                    salir = verdadero
+        fin mientras
+    fin menu
+
+    //Ingresar Jugadores, solo 2 jugadores
+    inicio ingresarJugadores() 
+        para (var i = 0 i < jugadores.longitud i++) 
+            Escribir "Ingrese el nombre del Jugador No. " + (i + 1)
+            var nombre 
+            leer nombre
+            Planeta[] planetaJugador = Planeta[1]
+            jugadores[i] = Jugador(nombre, 0, 0, planetaJugador, "J" + (i + 1))
+        fin para
+    fin ingresar jugadores
+
+    //Agregar un mapa y crearlo
+    inicio Mapa[] agregarMapa(Mapa mapas[]) 
+        Escribir "hola"
+        var filas = 0, columnas = 0
+        mientras (filas <= 0) 
+            Escribir "Ingrese el numero de filas----"
+            leer filas 
+            si (filas <= 0) 
+                Escribir "El numero de filas es invalido"
+                Escribir "Por favor, varenetelo de nuevo"
+            fin si
+        fin mientras
+
+        mientras (columnas <= 0) 
+            Escribir "Ingrese el numero de columnas | | | |"
+            leer columnas
+            si (columnas <= 0) 
+                Escribir "El numero de columnas es ivalido"
+                Escribir "Por favor, varenetelo de nuevo"
+            fin si
+        fin mientras
+
+        Planeta[][] mapa = new Planeta[filas][columnas]
+        Mapa mapaAgregar = new Mapa(mapa, filas, columnas)
+        var valido = falso
+        var planetasAgregar = 0
+        mientras (!valido) {
+            Escribir "Cuantos Planetas desea agregar")
+            leer planetasAgregar
+            si ((0 < planetasAgregar) && (planetasAgregar <= ((filas * columnas) - 2))) 
+                valido = verdadero
+            si no
+                Escribir "El numero es invalido"
+            fin si
+        fin mientras
+
+        Escribir "Desea agregarlos manualmente")
+        Escribir "1. Si \n2. No")
+        var eleccion 
+        leer eleccion
+        si (eleccion="1") 
+            mapaAgregar = agregarPlanetaManual(mapaAgregar, planetasAgregar)
+        si no (eleccion="2") 
+            mapaAgregar = agregarPlanetafAletoriamente(mapaAgregar, planetasAgregar)
+        fin si
+        si (mapas[0] = vacio) 
+            mapas[0] = mapaAgregar
+        si no
+            Mapa aux[] = new Mapa[mapas.longitud + 1]
+            para (var i = 0 i < mapas.longitud i++) 
+                aux[i] = mapas[i]
+            fin para
+            aux[mapas.longitud] = mapaAgregar
+            mapas = aux
+        fin si
+        retornar mapas
+    fin agregarMapa
+
+    inicio Mapa agregarPlanetafAletoriamente(Mapa mapa, var planetasAgregar)
+        Mapa mapaRetorna = mapa
+        Planeta[][] mapaRetornar = mapaRetorna.getMapa()
+        para (var i = 0 i < jugadores.longitud i++) 
+            var agregado = falso
+            mientras (!agregado) 
+                var k = generaNumeroAleatorio(0, (mapa.getFilas() - 1))
+                var j = generaNumeroAleatorio(0, (mapa.getColumnas() - 1))
+                si (mapaRetornar[k][j] = vacio) 
+                    mapaRetornar[k][j] = tipoPlaneta()
+                    si (i = 0)
+                        Planeta[] jugador1 = new Planeta[1]
+                        jugador1[0] = mapaRetornar[k][j]
+                        mapaRetorna.setJugador1(jugador1)
+                    si no (i = 1) 
+                        Planeta[] jugador2 = new Planeta[1]
+                        jugador2[0] = mapaRetornar[k][j]
+                        mapaRetorna.setJugador2(jugador2)
+                    fin si
+                    mapaRetornar[k][j].setDueno(jugadores[i].getNumeroJugador())
+                    agregado = verdadero
+                fin si
+            fin mientras
+        fin para
+        para (var i = 0 i < planetasAgregar i++) 
+            var agregado = falso
+            mientras (!agregado) 
+                var k = generaNumeroAleatorio(0, (mapa.getFilas() - 1))
+                var j = generaNumeroAleatorio(0, (mapa.getColumnas() - 1))
+                si (mapaRetornar[k][j] = vacio) 
+                    mapaRetornar[k][j] = tipoPlaneta()
+                    agregado = verdadero
+                fin si
+            fin mientras
+        fin para
+        mapaRetorna.setMapa(mapaRetornar)
+        retornar mapaRetorna
+    fin agregarPlanetafAletoriamente
+
+    inicio Planeta tipoPlaneta() 
+        var tipoPlaneta = generaNumeroAleatorio(0, (PROBABILIBAD_DISTRIBUCION_TIERRA + PROBABILIBAD_DISTRIBUCION_AGUA
+                + PROBABILIBAD_DISTRIBUCION_FUEGO + PROBABILIBAD_DISTRIBUCION_ORGANICO
+                + PROBABILIBAD_DISTRIBUCION_RADIOACTI))
+        Planeta planeta = vacio
+        si ((0 <= tipoPlaneta)
+                && (tipoPlaneta < PROBABILIBAD_DISTRIBUCION_TIERRA)) 
+            planeta = new Tierra(valorMuerte())
+        si no (PROBABILIBAD_DISTRIBUCION_TIERRA <= tipoPlaneta && tipoPlaneta
+                < (PROBABILIBAD_DISTRIBUCION_TIERRA + PROBABILIBAD_DISTRIBUCION_AGUA)) 
+            planeta = new Agua(valorMuerte())
+        si no ((PROBABILIBAD_DISTRIBUCION_TIERRA + PROBABILIBAD_DISTRIBUCION_AGUA) <= tipoPlaneta
+                && (tipoPlaneta < (PROBABILIBAD_DISTRIBUCION_TIERRA + PROBABILIBAD_DISTRIBUCION_AGUA
+                + PROBABILIBAD_DISTRIBUCION_FUEGO))) 
+            planeta = new Fuego(valorMuerte())
+
+        si no ((tipoPlaneta <= (PROBABILIBAD_DISTRIBUCION_TIERRA + PROBABILIBAD_DISTRIBUCION_AGUA
+                + PROBABILIBAD_DISTRIBUCION_FUEGO)) && (tipoPlaneta < (PROBABILIBAD_DISTRIBUCION_TIERRA
+                + PROBABILIBAD_DISTRIBUCION_AGUA + PROBABILIBAD_DISTRIBUCION_FUEGO
+                + PROBABILIBAD_DISTRIBUCION_ORGANICO))) 
+            planeta = new Organico(valorMuerte())
+        si no ((tipoPlaneta <= (PROBABILIBAD_DISTRIBUCION_TIERRA + PROBABILIBAD_DISTRIBUCION_AGUA
+                + PROBABILIBAD_DISTRIBUCION_FUEGO + PROBABILIBAD_DISTRIBUCION_ORGANICO))
+                && (tipoPlaneta < (PROBABILIBAD_DISTRIBUCION_TIERRA + PROBABILIBAD_DISTRIBUCION_AGUA
+                + PROBABILIBAD_DISTRIBUCION_FUEGO + PROBABILIBAD_DISTRIBUCION_ORGANICO
+                + PROBABILIBAD_DISTRIBUCION_RADIOACTI))) 
+            planeta = new Radioactivo(valorMuerte())
+        fin si
+        retornar planeta
+    fin tipoPlaneta
+
+    inicio Mapa agregarPlanetaManual(Mapa mapa, var planetasAgregar) {
+        Mapa mapaRetorna = mapa
+        Planeta[][] mapaRetornar = mapaRetorna.getMapa()
+        para (var i = 0 i < jugadores.longitud i++) 
+            Escribir "Ingresa el planeta del jugador No. " + (i + 1))
+            Escribir "Desea especsiicar los valores?\n1. Si"
+                    + " \n2. No, usar valores predeterminados")
+            var eleccionEspecsificar 
+            leer eleccionEspecsificar
+            si (eleccionEspecsificar="1"))
+                var agregado = falso
+                mientras (!agregado) 
+                    var k = pedirFila(mapaRetorna.getFilas())
+                    var j = pedirColumna(mapaRetorna.getColumnas())
+                    si (mapaRetornar[k][j] = vacio) 
+                        mapaRetornar[k][j] = pedirPlanetaEspecsiicado(jugadores[i].getNombre())
+                        si (i = 0) 
+                            Planeta[] jugador1 = new Planeta[1]
+                            jugador1[0] = mapaRetornar[k][j]
+                            mapaRetorna.setJugador1(jugador1)
+                        si no (i = 1) 
+                            Planeta[] jugador2 = new Planeta[1]
+                            jugador2[0] = mapaRetornar[k][j]
+                            mapaRetorna.setJugador2(jugador2)
+                        fin si
+                        mapaRetornar[k][j].setDueno(jugadores[i].getNumeroJugador())
+                        agregado = verdadero
+                    fin si
+                fin mientras
+            si no (eleccionEspecsiicar="2")) 
+                var agregado = falso
+                mientras (!agregado) 
+                    var k = pedirFila(mapaRetorna.getFilas())
+                    var j = pedirColumna(mapaRetorna.getColumnas())
+                    si (mapaRetornar[k][j] = vacio) 
+                        mapaRetornar[k][j] = pedirPlaneta()
+                        si (i = 0) 
+                            Planeta[] jugador1 = new Planeta[1]
+                            jugador1[0] = mapaRetornar[k][j]
+                            mapaRetorna.setJugador1(jugador1)
+                        si no (i = 1) 
+                            Planeta[] jugador2 = new Planeta[1]
+                            jugador2[0] = mapaRetornar[k][j]
+                            mapaRetorna.setJugador2(jugador2)
+                        fin si
+                        mapaRetornar[k][j].setDueno(jugadores[i].getNumeroJugador())
+                        agregado = verdadero
+                    si no
+                        Escribir "Espacio ocupado, ingrese de nuevo el planeta"
+                    fin si
+                fin mientras
+            fin si
+        fin para
+        para (var i = 0 i < planetasAgregar i++) 
+            Escribir "Ingreso de Planeta Neutral No. " + (i + 1))
+            var agregado = falso
+            mientras (!agregado) 
+                var k = pedirFila(mapaRetorna.getFilas())
+                var j = pedirColumna(mapaRetorna.getColumnas())
+                si (mapaRetornar[k][j] = vacio) 
+                    mapaRetornar[k][j] = pedirPlaneta()
+                    agregado = verdadero
+                si no
+                    Escribir "Espacio ocupado, ingrese de nuevo el planeta")
+                fin si
+            fin mientras
+        fin para
+        retornar mapaRetorna
+    fin agregarPlanetaManual
+
+    inicio var pedirFila(var limiteFila) 
+        
+        var fila = 0
+        var filaValida = falso
+        mientras (!filaValida) 
+            Escribir "Ingresa la fila")
+            leer fila
+            si ((0 < fila) && (fila < limiteFila)) 
+                filaValida = verdadero
+            fin si
+        fin mientras
+        retornar fila
+    fin pedirFila
+
+    inicio var pedirColumna(var limiteColumna) 
+        
+        var columna = 0
+        var columnaValida = falso
+        mientras (!columnaValida) {
+            Escribir "Ingresa la Columna")
+            leer columna 
+            si ((0 < columna) && (columna < limiteColumna)) 
+                columnaValida = verdadero
+            fin si
+        fin mientras
+        retornar columna
+    fin pedirColumna
+
+    inicio Planeta pedirPlanetaEspecsificado(var nombreDueno) 
+        
+        Escribir "Ingresa el nombre del Planeta"
+        var nombrePlaneta
+        leer nombrePlaneta
+        Escribir "Ingrese el porcentaje de muerte"
+        var porcentajeMuerte 
+        leer porcentajeMuerte
+
+        Planeta planetaEpecsifico = new Planeta(nombrePlaneta, "Nemo",
+                nombreDueno, porcentajeMuerte)
+        retornar planetaEpecsiico
+    fin pedirPlanetaEspecsificado
+
+    inicio Planeta pedirPlaneta() 
+        var completado = falso
+        Planeta planeta = vacio
+
+        mientras (!completado) 
+            Escribir "Ingrese el tipo de planeta que desea agreagar"
+            Escribir "1. Tierra"
+            Escribir "2. Agua"
+            Escribir "3. Fuego"
+            Escribir "4. Organico"
+            Escribir "5. Radioactivo"
+            var tipoPlaneta 
+            leer tipoPlaneta
+            segun (tipoPlaneta) 
+                caso "1":
+                    planeta =  Tierra(valorMuerte())
+                    completado = verdadero
+                caso "2":
+                    planeta = new Agua(valorMuerte())
+                    completado = verdadero
+                caso "3":
+                    planeta = new Fuego(valorMuerte())
+                    completado = verdadero
+                caso "4":
+                    planeta = new Organico(valorMuerte())
+                    completado = verdadero
+                caso "5":
+                    planeta = new Radioactivo(valorMuerte())
+                    completado = verdadero
+            fin segun
+        fin mientras
+        retornar planeta
+    fin pedirPlaneta
+
+    //ImprimirMapa
+    inicio imprimirMapa(Mapa mapa) 
+        Planeta[][] mapaImprimir = (mapa.getMapa())
+        para (var k = 0 k < mapa.getColumnas() k++) 
+            Escribir "     " + (k + 1) + "    "
+        fin para
+        para (var i = 0 i < mapa.getFilas() i++) 
+            para (var j = 0 j < mapa.getColumnas() j++) 
+                si (j = 0) 
+                    Escribir(i + 1) + ""
+                fin si
+                si (mapaImprimir[i][j] = vacio) 
+                    Escribir "|        |"
+                si no
+                    mapaImprimir[i][j].imprimirMapa()
+                fin si
+                si (j = (mapa.getColumnas() - 1)) 
+                    Escribir ""
+                fin si
+            fin para
+        fin para
+
+    fin imprimirMapa
+
+    inicio var valorMuerte() 
+        retornar generaNumeroAleatorio(1, 9999)
+    fin varlorMuerte
+
+    //Genera un numero aleatorio entre un rango
+    inicio var generaNumeroAleatorio(var minimo, var maximo) 
+        var numero = (var) random(Math.random() * (maximo - minimo + 1) + (minimo))
+        retornar numero
+    fin generaNumeroAleatorio
+
+fin juego

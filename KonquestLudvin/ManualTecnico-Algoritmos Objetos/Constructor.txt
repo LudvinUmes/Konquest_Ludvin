@@ -1,0 +1,36 @@
+Inicio Constructor 
+    privado final var nombre;
+    privado final var tiempoConstruccion;
+    privado final var precioCompra;
+    privado final var precioVente;
+    privado final var naveConstruir;
+
+    inicio Constructor(var nombre, var tiempoConstruccion, var precioCompra, var precioVente, var naveConstruir) 
+        este.nombre = nombre;
+        este.tiempoConstruccion = tiempoConstruccion;
+        este.precioCompra = precioCompra;
+        este.precioVente = precioVente;
+        este.naveConstruir = naveConstruir;
+    fin constructor
+
+    Inicio var getNombre() 
+        retornar nombre;
+    fin getNombre
+
+    Inicio var getTiempoConstruccion() 
+        retornar tiempoConstruccion;
+    fin getTiempoConstruccion
+
+    Inicio var getPrecioCompra() 
+        retornar precioCompra;
+    fin getPrecioCompra
+
+    Inicio var getPrecioVente() 
+        retornar precioVente;
+    fin getPrecioVenta
+
+    Inicio var getNaveConstruir() 
+        retornar naveConstruir;
+    fin getNaveConstruir
+    
+fin Constructor

@@ -1,0 +1,9 @@
+inicio Main 
+
+    inicio main(String[] args) 
+        // TODO code application logic here
+        Juego juego = new Juego();
+        juego.inicio();
+    fin main
+
+fin Main

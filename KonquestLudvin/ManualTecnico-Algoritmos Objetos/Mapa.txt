@@ -1,0 +1,48 @@
+inicio Mapa 
+
+    privado Planeta[][] mapa
+    privado final var filas
+    privado final var columnas
+    privado Planeta[] jugador1
+    privado Planeta[] jugador2
+
+    inicio Mapa(Planeta[][] mapa, var filas, var columnas) 
+        este.mapa = mapa
+        este.filas = filas
+        este.columnas = columnas
+    fin Mapa
+
+    //Geters y Seters
+    inicio Planeta[][] getMapa() 
+        retornar mapa
+    fin getMapa
+
+    inicio Planeta[] getJugador1() 
+        retornar jugador1
+    fin getMapa
+
+    inicio Planeta[] getJugador2() 
+        retornar jugador2
+    fin getJugador2
+
+    inicio setMapa(Planeta[][] mapa) 
+        este.mapa = mapa
+    fin setMapa
+
+    inicio var getFilas() 
+        retornar filas
+    fin getFilas
+
+    inicio var getColumnas() 
+        retornar columnas
+    fin getColumnas
+
+    inicio setJugador1(Planeta[] jugador1) 
+        este.jugador1 = jugador1
+    fin setJugador1
+
+    inicio setJugador2(Planeta[] jugador2) 
+        este.jugador2 = jugador2
+    fin setJugador2
+
+fin mapa

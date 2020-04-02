@@ -1,0 +1,76 @@
+inicio Planeta 
+
+    //Reset
+    publico final var ANSI_RESET = "\u001B[0m";
+    //Colores de fondo
+    publico final var ANSI_BLACK_BACKGROUND = "\u001B[40m";
+    publico final var ANSI_RED_BACKGROUND = "\u001B[41m";
+    publico final var ANSI_GREEN_BACKGROUND = "\u001B[42m";
+    publico final var ANSI_YELLOW_BACKGROUND = "\u001B[43m";
+    publico final var ANSI_BLUE_BACKGROUND = "\u001B[44m";
+    publico final var ANSI_PURPLE_BACKGROUND = "\u001B[45m";
+    publico final var ANSI_CYAN_BACKGROUND = "\u001B[46m";
+    publico final var ANSI_WHITE_BACKGROUND = "\u001B[47m";
+
+    privado final var nombre;
+    privado final var tipoGuerrero;
+    privado var dueno;
+    privado var cantidadDienero;
+    privado var guerrerosTurno; 
+    privado final var porcentajeMuerte; 
+    
+    inicio Planeta(var nombre, var tipoGuerrero, var dueno, var porcentajeMuerte) 
+        this.nombre = nombre;
+        this.tipoGuerrero = tipoGuerrero;
+        this.dueno = dueno;
+        this.porcentajeMuerte = porcentajeMuerte;
+    fin Planeta
+
+    //Getters y seters
+    inicio void setDueno(var dueno) 
+        this.dueno = dueno;
+    fin setDueno
+
+    inicio setCantidadDienero(var cantidadDienero) 
+        this.cantidadDienero = cantidadDienero;
+    fin setCantidaddinero
+
+    inicio setGuerrerosTurno(var guerrerosTurno) 
+        this.guerrerosTurno = guerrerosTurno;
+    fin setGuerrerosTurno
+
+    inicio var getNombre() 
+        return nombre;
+    fin getNombre
+
+    inicio var getTipoGuerrero() 
+        return tipoGuerrero;
+    fin getTipoGuerrero
+
+    publico var getDueno() 
+        return dueno;
+    fin getDueno
+
+    publico var getCantidadDienero() 
+        return cantidadDienero;
+    fin getCantidadDinero
+
+    publico var getGuerrerosTurno() 
+        return guerrerosTurno;
+    fin getGuerrrerosTurno
+
+    publico var getPorcentajeMuerte() 
+        return porcentajeMuerte;
+    fin getPorcentajeMuerte
+    
+    //metodo para imprimirse en el mapa
+    publico void imprimirMapa() 
+        si (dueno == null) 
+            Escribir ANSI_GREEN_BACKGROUND + "|neutro  |" + ANSI_RESET
+        sino (dueno.equals("J1")) 
+            System.out.prvar(ANSI_CYAN_BACKGROUND + "|" + dueno + "      |" + ANSI_RESET);
+        si no (dueno.equalsIgnoreCase("J2"))
+            System.out.prvar(ANSI_YELLOW_BACKGROUND + "|" + dueno + "      |" + ANSI_RESET);
+        fin si
+    fin imprimirMapa
+fin Planeta

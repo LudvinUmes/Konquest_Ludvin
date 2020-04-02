@@ -1,0 +1,62 @@
+inicio Jugador
+
+    privado final var  nombre;
+    privado var puntos;
+    privado var dineroGalactus;
+    privado Planeta[] planetas;
+    privado final var  numeroJugador;
+
+    inico Jugador(var  nombre, var puntos, var dineroGalactus,
+            Planeta[] planetas, var  numeroJugador) 
+        este.nombre = nombre;
+        este.puntos = puntos;
+        este.dineroGalactus = dineroGalactus;
+        este.planetas = planetas;
+        este.numeroJugador = numeroJugador;
+    fin Jugador
+
+    inicio var  getNombre() 
+        return nombre
+    fin getNombre
+
+    inicio var getPuntos() 
+        return puntos
+    fin getPuntos
+
+    inicio var getDineroGalactus() 
+        return dineroGalactus
+    fin getDineroGalactus
+
+    inicio setPuntos(var puntos)
+        este.puntos = puntos
+    fin setPuntos
+
+    inicio setDineroGalactus(var dineroGalactus) 
+        este.dineroGalactus = dineroGalactus
+    fin setDineroGalactus
+
+    inicio Planeta[] getPlanetas() 
+        return planetas
+    fin getPlanetas
+
+    inicio setPlanetas(Planeta[] planetas) 
+        este.planetas = planetas
+    fin setPlanetas
+
+    inicio var  getNumeroJugador() 
+        return numeroJugador
+    fin getNumeroJugador
+
+    inicio agregarPlaneta(Planeta planetaAgregar) 
+        si (este.planetas[0] == null) 
+            este.planetas[0] = planetaAgregar
+        si no
+            Planeta aux[] = new Planeta[(este.planetas).longitud + 1]
+            para (var i = 0; i < (este.planetas).longitud; i++) 
+                aux[i] = (este.planetas)[i]
+            fin para
+            aux[(este.planetas).longitud] = planetaAgregar
+            este.planetas = aux
+        fin si
+    fin agregarPlaneta
+fin Jugador
